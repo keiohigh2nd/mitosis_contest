@@ -31,16 +31,23 @@ def return_random_point(num):
 
   return res
 
-def cutout(img ,csv, file_name):
+def cutout(img ,csv, file_name, size):
  print img
  src = cv2.imread(img, 1)
  i = 0
+ ##size of capture
+ half = size/2
+ print half
  for point in csv:
-   dst = src[int(point[1])-30:int(point[1])+60, int(point[0])-30:int(point[0])+60]
+   dst = src[int(point[1])-half:int(point[1])+half, int(point[0])-half:int(point[0])+half]
    i += 1
    tmp_name = file_name.split("/")
    tmp = tmp_name[-1] + str(i) +"_random.jpg"
-   cv2.imwrite(tmp, dst)
+   try:
+     if len(dst[0]) == size and len(dst) == size:
+       cv2.imwrite(tmp, dst)
+   except:
+     print "Not found"
   
 
 def set_path(img):
@@ -61,5 +68,5 @@ if __name__ == "__main__":
   
  
   csv = return_random_point(10)
-  cutout(img, csv, filename)
+  cutout(img, csv, filename, 90)
 
