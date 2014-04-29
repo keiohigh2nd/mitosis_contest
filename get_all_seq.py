@@ -2,10 +2,10 @@
 
 #Don't forget *
 #files are the mitosis csv folder and image is the all image data foldr
-files="../A17/mitosis/*"
-image="../A17/frames/x40/"
+files="../A18/mitosis/*"
+image="../A18/frames/x40/"
 
 for filepath in ${files}
 do
-  python2.7 cut_out_random.py ${filepath} ${image}
+  python2.7 seq.py ${filepath} ${image}
 done

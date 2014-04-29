@@ -1,5 +1,6 @@
 import sys
 sys.path.append("/home/appl/opencv-2.4.6.1/lib/python2.6/site-packages")
+import cv2
 
 from common import anorm, getsize
 import os, random
@@ -53,6 +54,39 @@ def set_path(img):
   name = img.split("/")
   return  name[-1][0:8] + ".tiff"
   
+def check_label(csv,yt,xt,size):
+  for pos in csv:
+    if int(yt) <= int(pos[1]) <= int(yt+size) and int(xt) <= int(pos[0]) <= int(xt+size):
+      return 1
+  return 0
+
+def cutout_seq(img, csv, size):
+  print img
+  src = cv2.imread(img, 1)
+
+  quart = size/4
+  x_pix = len(src[0])
+  y_pix = len(src)
+
+  x_time = x_pix/quart
+  y_time = y_pix/quart
+
+  i = 0
+  for yt in xrange(y_time):
+    for xt in xrange(x_time):
+      dst = src[yt*quart: yt*quart+size, xt*quart:xt*quart+size]
+      tmp_name = img.split("/")
+      if check_label(csv, yt*quart, xt*quart, size) == int(1): 
+      	tmp = tmp_name[-1] + str(i) +"_seq_true.jpg"
+      else:
+	tmp = tmp_name[-1] + str(i) +"_seq_false.jpg"
+      i += 1
+      try:
+        if len(dst[0]) == size and len(dst) == size:
+          cv2.imwrite(tmp, dst)
+      except:
+        print "Not found"
+
   
 
 if __name__ == "__main__":
@@ -61,11 +95,13 @@ if __name__ == "__main__":
 
   filename = argvs[1]
   img = argvs[2] + set_path(argvs[1])
+  #img = argvs[2]
   print img
   print "------"
-  #csv = read_csv(filename)
+  csv = read_csv(filename)
   
  
-  csv = return_random_point(5)
-  cutout(img, csv, filename, 90)
+  #csv = return_random_point(5)
+  #cutout(img, csv, filename, 90)
+  cutout_seq(img, csv, 90)
 
