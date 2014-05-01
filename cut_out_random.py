@@ -3,6 +3,7 @@ sys.path.append("/home/appl/opencv-2.4.6.1/lib/python2.6/site-packages")
 
 from common import anorm, getsize
 import os, random
+import cv2
 
 def read_csv(filename):
   f = open(filename)
@@ -18,12 +19,16 @@ def read_csv(filename):
     res.append(tmp)
   return res
 
-def return_random_point(num):
+def return_random_point(num, csv):
   res = []
   for i in xrange(num):
     tmp = []
     ran_x = random.randint(0,1538)
     ran_y = random.randint(0,1376)
+    for pos in csv:
+      if ran_x - 10 < int(pos[0]) < ran_x + 10 and ran_y - 10 < int(pos[1]) < ran_y + 10:
+	ran_x = ran_x + 20
+	ran_y = ran_y + 20
     tmp.append(ran_x)
     tmp.append(ran_y)
     res.append(tmp)
@@ -63,9 +68,9 @@ if __name__ == "__main__":
   img = argvs[2] + set_path(argvs[1])
   print img
   print "------"
-  #csv = read_csv(filename)
+  pre_csv = read_csv(filename)
   
  
-  csv = return_random_point(5)
+  csv = return_random_point(5,pre_csv)
   cutout(img, csv, filename, 90)
 

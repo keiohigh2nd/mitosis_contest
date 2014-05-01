@@ -53,10 +53,21 @@ def cutout(img ,csv, file_name, size):
 def set_path(img):
   name = img.split("/")
   return  name[-1][0:8] + ".tiff"
+ 
+def get_distance(y, x, qy, qx):
+  tmp_y = (y-qy)*(y-qy)
+  tmp_x = (x-qx)*(x-qx)
+
+  return (tmp_y+tmp_x)
   
 def check_label(csv,yt,xt,size):
+  center_y = yt + size/2
+  center_x = xt + size/2
+
   for pos in csv:
-    if int(yt) <= int(pos[1]) <= int(yt+size) and int(xt) <= int(pos[0]) <= int(xt+size):
+    distance = get_distance(center_y, center_x, int(pos[1]), int(pos[0]))
+    if distance < 1060:
+      print "distance close"
       return 1
   return 0
 
