@@ -75,28 +75,34 @@ def cutout_seq(img, csv, size):
   print img
   src = cv2.imread(img, 1)
 
-  quart = size/4
+  quart = size/3
   x_pix = len(src[0])
   y_pix = len(src)
 
   x_time = x_pix/quart
   y_time = y_pix/quart
 
-  i = 0
+  j = 0
   for yt in xrange(y_time):
+    i = 0
     for xt in xrange(x_time):
       dst = src[yt*quart: yt*quart+size, xt*quart:xt*quart+size]
       tmp_name = img.split("/")
-      if check_label(csv, yt*quart, xt*quart, size) == int(1): 
-      	tmp = tmp_name[-1] + str(i) +"_seq_true.jpg"
-      else:
-	tmp = tmp_name[-1] + str(i) +"_seq_false.jpg"
-      i += 1
       try:
         if len(dst[0]) == size and len(dst) == size:
-          cv2.imwrite(tmp, dst)
+          if check_label(csv, yt*quart, xt*quart, size) == int(1):
+            tmp = tmp_name[-1] + str(i) + "_" + str(j) +"_seq_true.jpg"
+            tmp_f = "true/" + tmp
+            cv2.imwrite(tmp_f, dst)
+          else:
+            tmp = tmp_name[-1] + str(i) + "_" + str(j) +"_seq_false.jpg"
+            tmp_f = "false/" + tmp
+            cv2.imwrite(tmp_f, dst)
       except:
         print "Not found"
+      i += 1
+    j += 1
+
 
   
 

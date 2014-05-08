@@ -2,8 +2,8 @@
 
 #Don't forget *
 #files are the mitosis csv folder and image is the all image data foldr
-files="../A05/mitosis/*"
-image="../A05/frames/x40/"
+files="../A07/mitosis/*"
+image="../A07/frames/x40/"
 
 for filepath in ${files}
 do

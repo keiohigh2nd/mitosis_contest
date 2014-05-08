@@ -53,5 +53,5 @@ if __name__ == "__main__":
   print img
   print "------"
   csv = read_csv(filename)
-  cutout(img, csv, filename, 90)
+  cutout(img, csv, filename, 50)
 

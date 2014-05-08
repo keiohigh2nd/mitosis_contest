@@ -71,6 +71,6 @@ if __name__ == "__main__":
   pre_csv = read_csv(filename)
   
  
-  csv = return_random_point(5,pre_csv)
-  cutout(img, csv, filename, 90)
+  csv = return_random_point(2,pre_csv)
+  cutout(img, csv, filename, 50)
 
